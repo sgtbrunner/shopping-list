@@ -1,0 +1,61 @@
+p {
+  font-size: 1.5em;
+}
+
+li {
+  cursor: pointer;
+}
+
+input, button, li {
+  font-size: 1.25em;
+}
+
+.coolTitle {
+  text-align: center;
+  font-family: 'Oswald', Helvetica, sans-serif;
+  font-size: 60px;
+  transform: skewY(-4deg);
+  letter-spacing: 4px;
+  word-spacing: -8px;
+  color: tomato;
+  text-shadow: 
+    -1px -1px 0 firebrick,
+    -2px -2px 0 firebrick,
+    -3px -3px 0 firebrick,
+    -4px -4px 0 firebrick,
+    -5px -5px 0 firebrick,
+    -6px -6px 0 firebrick,
+    -7px -7px 0 firebrick,
+    -8px -8px 0 firebrick,
+    -30px 20px 40px dimgrey;
+}
+
+.done {
+  text-decoration: line-through;
+}
+
+.delete {
+  font-size: .5em;
+  margin-left: 10px;
+  vertical-align: 40%;
+  font-weight: bold;
+}
+
+.container {
+  width: 30px;
+  height: 30px;
+  border-radius: 5px;
+  margin:5px;
+}
+
+.colorHeader {
+  display: flex;
+  justify-content: flex-end;
+}
+
+#frame {
+  padding: 10px;
+  margin: 10px;
+  background-color: rgb(255, 255, 130);
+  border-radius: 10px;
+}
