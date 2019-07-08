@@ -22,7 +22,3 @@ On terminal:
 ## Authors
 
 * **Guilherme Brunner** - *Initial work* - [sgtbrunner](https://github.com/sgtbrunner)
-
-## Acknowledgments
-
-* **Andrei Neagoie** - [aneagoie](https://github.com/aneagoie) for the project tutorial :)
