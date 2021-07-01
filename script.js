@@ -1,89 +1,82 @@
-// VARIABLE INITIALIZATION
-var button = document.getElementById('enter');
-var input = document.getElementById('userinput');
-var ul = document.querySelector('ul');
-var list = document.querySelectorAll('li');
-var delbutton = document.getElementsByClassName('delete');
-var frame = document.getElementById('frame');
-var container = document.getElementsByClassName('container');
-var colors = [container[0], container[1], container[2], container[3], container[4], container[5]];
-var header = document.getElementsByTagName('div')[1];
+const LI = 'li';
+const CLICK = 'click';
 
-// FUNCTIONS
-function inputValue() {
-	return input.value;
-}
+const app = document.getElementsByClassName('app')[0];
+const colorButtons = [...document.getElementsByClassName('color-button')];
+const submitButton = document.getElementById('submit');
+const input = document.getElementById('user-input');
+const list = document.querySelector('ul');
+let listItems = [...document.querySelectorAll(LI)];
 
-function addListAfterClick() {
-	if( (inputValue() !=0 ) && (inputValue() != "&nbsp") ) {
-	createListElement();
-	}
-}
+const changeBackgroundColor = (event) => {
+  app.style.backgroundColor =
+    colorButtons[event.target.id].style.backgroundColor;
+};
 
-function addListAfterKeypress(event) {
-	if( (inputValue() !=0 ) && (inputValue() != "&nbsp") && (event.code == "Enter") ) {
-	createListElement();
-	}
-}
+const refreshList = () => {
+  listItems = document.querySelectorAll(LI);
+  listItems.forEach((item, index) => (item.id = index));
+};
 
-// * -> Can be removed if the initial list on index.html is blank
-function addDeleteButton() { 
-	for (i=0; i<list.length; i++) {
-		var remove = document.createElement("button");
-		remove.textContent = "X";
-		remove.classList.add("delete");
-		list[i].appendChild(remove);
-	}	
-}
- // * -> It would be interesting to shorten the below function using addDeleteButton but I don't know how to do it!!!
-function createListElement() {
-	var li = document.createElement("li");
-	li.textContent = input.value;
-	var remove = document.createElement("button");
-	remove.textContent = "X";
-	remove.classList.add("delete");
-	li.appendChild(remove);
-	ul.appendChild(li);
-	input.value="";
-	list = document.querySelectorAll('li');
-}
+const resetInput = () => {
+  input.value = '';
+};
 
+const changeStatus = (event) => {
+  const item = listItems[event.target.id];
+  item.classList.toggle('done');
+};
 
-function changeSelectedItem() {
-	for (j=0; j<list.length; j++) {
-		list[j].addEventListener("click", changeStatus);
-		delbutton[j].addEventListener("click", removeItem, true);
-	}
-}
+const removeListItem = (event) => {
+  event.stopPropagation();
+  const item = listItems[event.target.parentNode.id];
+  item.parentNode.removeChild(item);
+};
 
-function changeStatus() {
-	this.classList.toggle("done");
-}
+const createDeleteButton = () => {
+  const removeButton = document.createElement('button');
+  removeButton.textContent = 'X';
+  removeButton.classList.add('delete');
+  removeButton.addEventListener(CLICK, (event) => removeListItem(event), true);
+  return removeButton;
+};
 
-function removeItem() {
-	this.parentNode.parentNode.removeChild(this.parentNode);
-	list = document.querySelectorAll('li');
-}
+const addDeleteButton = (item) => {
+  const removeButton = createDeleteButton();
+  item.appendChild(removeButton);
+  item.addEventListener(CLICK, changeStatus);
+};
 
-function changeColor() {
-	frame.style.backgroundColor = this.style.backgroundColor; 
-}
+const createListItem = () => {
+  const item = document.createElement(LI);
+  item.textContent = input.value;
+  item.id = listItems.length;
+  addDeleteButton(item);
+  list.appendChild(item);
+  resetInput();
+  refreshList();
+};
 
-// function listenButtons() {
-// 	colors.forEach(item => {
-// 		item.addEventListener("click", changeColor);
-// 	})
-// }
+const addEventToColorButtons = () => {
+  colorButtons.forEach((item, index) => {
+    item.id = index;
+    item.addEventListener(CLICK, changeBackgroundColor);
+  });
+};
 
-function changeBackgroundColor() {
-	for (k=0; k < colors.length-1; k++) {
-		colors[k].addEventListener('click', changeColor);
-	}
-}
+const addEventAndDeleteButtonToExistingItems = () => {
+  listItems.forEach((item, index) => {
+    item.id = index;
+    addDeleteButton(item);
+  });
+};
 
-// FUNCTION CALL
-addDeleteButton(); // * -> Can be removed if the initial list on index.html is blank
-button.addEventListener("click", addListAfterClick);
-input.addEventListener("keydown", addListAfterKeypress);
-ul.addEventListener("mousedown", changeSelectedItem);
-header.addEventListener("mousedown", changeBackgroundColor)
+const addListItemAfterKeypress = (event) => {
+  if (input.value && (event.type === CLICK || event.key === 'Enter'))
+    createListItem();
+};
+
+addEventToColorButtons();
+addEventAndDeleteButtonToExistingItems();
+submitButton.addEventListener(CLICK, addListItemAfterKeypress);
+input.addEventListener('keydown', addListItemAfterKeypress);
